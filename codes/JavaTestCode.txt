@@ -1,0 +1,170 @@
+//Copy paste the code in java ide and provide the correct path for the file that need to read
+// print the ouput of the when you dont a line in code or directly copy pate it in your browser
+
+package com.company;
+
+
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import java.io.File;
+
+
+
+public class Main {
+
+	
+	
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+	
+//	To Tack total values	
+	int total_values = 0;
+	
+//	output_file.csv contains path of all files that need to be read
+	String input_path_file = "E:/office/Training Material/practise/informatica_practise/MiniProject/sources/output_file.csv";
+	File path_file = new File(input_path_file);
+		
+	Scanner path_list_reader = null;
+	
+	try {
+		
+		path_list_reader = new Scanner(path_file);
+		
+	} catch(Exception e) {
+		System.out.println("Error...");
+	}
+	
+	
+	StringBuffer path_buffer = new StringBuffer(); 
+	
+	while(path_list_reader.hasNextLine()) {
+		path_buffer.append(path_list_reader.nextLine());
+	}
+	
+	
+//	to debug
+	System.out.println(path_buffer);
+	
+		
+		
+	String path = path_buffer.toString();
+	
+//	array of all the paths 
+	String files[] = path.split(",");
+	
+	String pattern = "[A-Za-z-]+";
+	Pattern pat = Pattern.compile(pattern);
+	
+	
+//	Creating sample to compare all the values with
+	String values_sample = "E:/office/Training Material/practise/informatica_practise/MiniProject/sources/values_sample.txt";
+	
+	File sampleValuesFile = new File(values_sample);
+	
+	Scanner sampleValuesFileReader = null;
+	try {
+		sampleValuesFileReader = new Scanner(sampleValuesFile);
+		
+		
+		
+	} catch (Exception e) {
+		// TODO: handle exception
+		System.out.println(e.getMessage());
+	}
+	
+	
+	ArrayList<String> sample = new ArrayList<String>();
+	
+	
+	
+	while(sampleValuesFileReader.hasNextLine()) {
+		String line = sampleValuesFileReader.nextLine();
+		Matcher matcher = pat.matcher(line);
+		
+
+		
+		while(matcher.find()) {
+	        
+			String value = matcher.group();
+			sample.add(value.toLowerCase());
+			
+	      }
+		
+	}
+	
+//	to debug
+//	System.out.println(sample);
+	
+	
+//	Reading files in a loop
+	for(int i = 0; i<files.length; i++) {
+		
+		File f = new File(files[i]);
+		
+		
+
+		Scanner reader = null; 
+		
+		try {
+			reader = new Scanner(f);
+		} catch(Exception e) {
+			System.out.println("exception found");
+			
+		}
+		
+		
+		
+		
+		System.out.println(f.getName());
+		
+		ArrayList<String> checklist = new ArrayList<String>();
+		int count = 0;
+		
+		while(reader.hasNextLine()) {
+			String o_LINE = reader.nextLine();
+			Matcher matcher = pat.matcher(o_LINE);
+			
+			
+			
+			while(matcher.find()) {
+		        
+				String values = matcher.group();
+//				System.out.println(values);
+				
+				
+				
+				if(sample.contains(values.toLowerCase()) && !checklist.contains(values.toLowerCase())){
+				    
+					String line = matcher.group();
+					checklist.add(line.toLowerCase());
+					
+					if (100-count != 0) {
+						
+						System.out.println(matcher.group()+" "+(100-count));
+//						String o_line = matcher.group();
+//						System.out.println(o_line);
+						count = count + 10;
+						total_values = total_values + 1;
+					}
+					
+				} 
+				
+		      }
+			
+		}
+			
+			
+		}
+	
+	System.out.println("Total no. of values: " + total_values);
+	System.out.println("Completed");
+		
+	}
+	
+	
+	
+
+}

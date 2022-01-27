@@ -1,0 +1,11 @@
+VALUES: 
+			curiosity
+			Determination
+			Discovery
+			Environment
+			Happiness
+			Health
+			Honesty
+			Patience
+			Peace
+			Respect
